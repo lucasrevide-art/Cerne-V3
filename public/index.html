@@ -5,93 +5,181 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Meu Workspace</title>
 <style>
-:root{--accent:#2f6fed;--bg:#fff;--bg2:#f7f6f3;--fg:#37352f;--muted:#8a877f;--line:#e8e6e1;--radius:8px}
-[data-theme=dark]{--bg:#191919;--bg2:#202020;--fg:#e6e4df;--muted:#8c8a85;--line:#333}
+:root{--accent:#2f6fed;--bg:#fff;--bg2:#f6f6f4;--bg3:#efefec;--fg:#1f1f1d;--fg2:#55534e;--muted:#8a8882;--line:#e7e6e2;--red:#c9372c;--redbg:#fbe9e7;--amber:#a86b00;--amberbg:#fdf1d8;--green:#2b7a3d;--greenbg:#e3f3e6;--radius:10px}
+[data-theme=dark]{--bg:#171717;--bg2:#1e1e1e;--bg3:#272727;--fg:#ececea;--fg2:#b4b2ac;--muted:#85837d;--line:#2f2f2f;--red:#ff8a7e;--redbg:#3d2220;--amber:#f0b84e;--amberbg:#3a2f14;--green:#79c98c;--greenbg:#1d3324}
 *{box-sizing:border-box}
-body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);display:flex;min-height:100vh}
-aside{width:230px;background:var(--bg2);border-right:1px solid var(--line);padding:16px 10px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:2px}
-aside h1{font-size:15px;margin:0 8px 14px;display:flex;align-items:center;gap:8px}
-aside h1 span.dot{width:10px;height:10px;border-radius:3px;background:var(--accent)}
-nav a{display:block;padding:6px 10px;border-radius:6px;color:var(--fg);text-decoration:none;cursor:pointer}
-nav a:hover{background:rgba(127,127,127,.12)}
-nav a.on{background:rgba(127,127,127,.18);font-weight:600}
-.sp{flex:1}
-main{flex:1;padding:32px 40px;max-width:1100px;overflow-x:auto}
-h2{margin:0 0 4px;font-size:26px}
-.sub{color:var(--muted);margin-bottom:22px}
+html{-webkit-font-smoothing:antialiased}
+body{margin:0;font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--fg);display:flex;min-height:100vh}
+svg.i{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* sidebar */
+aside{width:236px;background:var(--bg2);border-right:1px solid var(--line);padding:18px 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 14px;font-weight:650;font-size:15px;letter-spacing:-.01em}
+.brand .mark{width:22px;height:22px;border-radius:6px;background:var(--accent);display:grid;place-items:center;color:#fff}
+.brand .mark svg{width:13px;height:13px;stroke-width:2.2}
+.sbox{position:relative;margin:0 0 10px}
+.sbox svg{position:absolute;left:10px;top:9px;color:var(--muted);width:15px;height:15px}
+.sbox input{padding-left:32px;background:var(--bg)}
+nav{display:flex;flex-direction:column;gap:1px}
+nav a{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:7px;color:var(--fg2);cursor:pointer;font-weight:500}
+nav a:hover{background:var(--bg3);color:var(--fg)}
+nav a.on{background:var(--bg3);color:var(--fg)}
+nav a.on svg{color:var(--accent)}
+.grow{flex:1;min-width:0}
+/* layout */
+main{flex:1;padding:36px 44px 60px;max-width:1180px;min-width:0}
+.head{margin-bottom:24px}
+h2{margin:0;font-size:24px;font-weight:650;letter-spacing:-.02em;line-height:1.25}
+.sub{color:var(--muted);margin-top:4px;font-size:14px}
+h3.sec{margin:0 0 12px;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:8px}
+h3.sec .ct{background:var(--bg3);color:var(--fg2);border-radius:10px;padding:0 7px;font-size:11px;letter-spacing:0}
+.block{margin-bottom:30px}
+/* controls */
 button,input,select,textarea{font:inherit;color:inherit}
-button{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:6px 12px;cursor:pointer}
-button.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
-button.link{background:none;color:var(--muted);padding:2px 6px}
-button.link:hover{color:#d33}
-input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
-.bar{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
-.bar input,.bar select{width:auto}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.card{border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;background:var(--bg)}
-.card.click{cursor:pointer}.card.click:hover{background:var(--bg2)}
-.card h3{margin:0 0 4px;font-size:15px}
-.meta{color:var(--muted);font-size:13px}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;border-bottom:1px solid var(--line);padding:6px 8px}
-td{padding:7px 8px;border-bottom:1px solid var(--line)}
-tr.row:hover{background:var(--bg2)}
-.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;background:rgba(127,127,127,.18)}
-.tag.alta{background:#f8d7d3;color:#8c2a1f}.tag.media{background:#fbe9c3;color:#7a5a0c}.tag.baixa{background:#d9ecd9;color:#2c6a2c}
-.tag.late{background:#f8d7d3;color:#8c2a1f}
-.board{display:grid;grid-template-columns:repeat(3,minmax(240px,1fr));gap:14px;align-items:start}
-.col{background:var(--bg2);border-radius:var(--radius);padding:10px;min-height:120px}
-.col h4{margin:0 0 8px;font-size:13px;color:var(--muted)}
-.col .card{margin-bottom:8px;cursor:grab}
-.col.over{outline:2px dashed var(--accent)}
-.done{text-decoration:line-through;color:var(--muted)}
-dialog{border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--fg);padding:20px;width:min(460px,92vw)}
+button{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border:1px solid transparent;border-radius:8px;padding:7px 13px;cursor:pointer;font-weight:550;line-height:1.2}
+button:hover{filter:brightness(1.06)}
+button.ghost{background:var(--bg);color:var(--fg);border-color:var(--line)}
+button.ghost:hover{background:var(--bg2);filter:none}
+button.icon{padding:7px 9px}
+button.danger{color:var(--red)}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;line-height:1.4}
+input:focus,select:focus,textarea:focus{outline:2px solid color-mix(in srgb,var(--accent) 35%,transparent);border-color:var(--accent)}
+.bar{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
+.bar select{width:auto}
+/* cards & lists */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;background:var(--bg)}
+.card.click{cursor:pointer;transition:border-color .12s,box-shadow .12s}
+.card.click:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.card .ti{font-weight:600;font-size:14.5px;line-height:1.35;margin-bottom:3px}
+.me{color:var(--muted);font-size:12.5px;line-height:1.45}
+.foot{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);overflow:hidden}
+.item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line);cursor:pointer}
+.item:last-child{border-bottom:0}
+.item:hover{background:var(--bg2)}
+.item .ti{font-weight:550;line-height:1.35}
+.item .me{margin-top:1px}
+.chk{width:20px;height:20px;padding:0;border-radius:50%;background:transparent;border:1.5px solid var(--muted);color:transparent;display:grid;place-items:center;flex:none}
+.chk:hover{border-color:var(--accent);color:var(--accent);filter:none}
+.chk.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chk svg{width:11px;height:11px;stroke-width:3}
+.done .ti{text-decoration:line-through;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.dot.time{background:var(--green)}
+.when{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px;min-width:46px}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:550;line-height:1.5;background:var(--bg3);color:var(--fg2);white-space:nowrap}
+.tag svg{width:12px;height:12px}
+.tag.alta{background:var(--redbg);color:var(--red)}.tag.media{background:var(--amberbg);color:var(--amber)}.tag.baixa{background:var(--greenbg);color:var(--green)}
+.tag.late{background:var(--redbg);color:var(--red)}
+.empty{color:var(--muted);padding:22px 16px;text-align:center;font-size:13.5px}
+.panel .empty{padding:20px 16px}
+/* dashboard */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px}
+.stat{padding:16px 18px;border:1px solid var(--line);border-radius:var(--radius)}
+.stat .lb{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12.5px;font-weight:550}
+.stat b{display:block;font-size:30px;font-weight:650;letter-spacing:-.02em;line-height:1.15;margin-top:6px}
+.stat.warn b{color:var(--red)}
+.cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:start}
+.day{padding:8px 16px;background:var(--bg2);font-size:12px;font-weight:600;color:var(--fg2);border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.day.today{color:var(--accent)}
+.prog{height:5px;border-radius:3px;background:var(--bg3);overflow:hidden;margin-top:8px}
+.prog i{display:block;height:100%;background:var(--accent);border-radius:3px}
+/* board */
+.board{display:grid;grid-template-columns:repeat(3,minmax(250px,1fr));gap:16px;align-items:start}
+.col{background:var(--bg2);border-radius:var(--radius);padding:12px;min-height:140px}
+.col h4{margin:2px 4px 12px;font-size:12px;font-weight:600;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;display:flex;justify-content:space-between}
+.col .card{margin-bottom:10px;padding:13px 14px;cursor:grab}
+.col.over{outline:2px dashed var(--accent);outline-offset:-2px}
+/* table */
+table{width:100%;border-collapse:separate;border-spacing:0}
+th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line);padding:8px 14px}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr.row:hover td{background:var(--bg2)}
+/* dialog */
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--fg);padding:24px;width:min(480px,92vw);box-shadow:0 20px 50px rgba(0,0,0,.2)}
 dialog::backdrop{background:rgba(0,0,0,.4)}
-label{display:block;font-size:13px;color:var(--muted);margin:10px 0 3px}
-.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:26px}
-.stat b{font-size:28px;display:block}
-.empty{color:var(--muted);padding:20px 0}
-h3.sec{margin:26px 0 10px;font-size:16px}
-#q{margin:0 4px 10px;width:calc(100% - 8px)}
-.notes{display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:start}
-.nlist .card{margin-bottom:8px}.nlist .card.sel{border-color:var(--accent)}
-.editor input.t{font-size:24px;font-weight:700;border:0;padding:4px 0;background:transparent}
-.editor textarea{border:0;background:transparent;min-height:380px;resize:vertical;padding:4px 0;line-height:1.6}
+dialog h3{margin:0 0 6px;font-size:17px;font-weight:650}
+label{display:block;font-size:12.5px;font-weight:550;color:var(--fg2);margin:14px 0 5px}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:22px}
+/* notes */
+.notes{display:grid;grid-template-columns:280px minmax(0,1fr);gap:24px;align-items:start}
+.nlist .card{margin-bottom:10px;padding:13px 16px}
+.nlist .card.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.editor{border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px}
+.editor input.t{font-size:22px;font-weight:650;border:0;padding:4px 0;background:transparent;letter-spacing:-.01em}
+.editor textarea{border:0;background:transparent;min-height:420px;resize:vertical;padding:6px 0;line-height:1.7;font-size:14.5px}
 .editor input:focus,.editor textarea:focus{outline:none}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
-.cal .h{padding:6px;font-size:12px;color:var(--muted);border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
-.cal .d{min-height:98px;padding:4px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);cursor:pointer;overflow:hidden}
-.cal .d:hover{background:var(--bg2)}.cal .d.out{opacity:.4}
-.cal .d .n{font-size:12px;color:var(--muted)}.cal .d.today .n{background:var(--accent);color:#fff;border-radius:10px;padding:0 6px}
-.ev{font-size:12px;border-radius:4px;padding:1px 5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:rgba(127,127,127,.18)}
-.ev.task{background:#dbe7ff;color:#1c3f8f}.ev.proj{background:#fbe9c3;color:#7a5a0c}.ev.event{background:#d9ecd9;color:#2c6a2c}.ev.late{background:#f8d7d3;color:#8c2a1f}
-[data-theme=dark] .ev.task{background:#22365f;color:#bcd0ff}[data-theme=dark] .ev.proj{background:#5a4513;color:#fbe9c3}[data-theme=dark] .ev.event{background:#1f4a1f;color:#cfe9cf}[data-theme=dark] .ev.late{background:#5c2a25;color:#f8d7d3}
-@media(max-width:760px){body{flex-direction:column}aside{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap}main{padding:20px}.board{grid-template-columns:1fr}.notes{grid-template-columns:1fr}.cal .d{min-height:60px}}
+.editor .meta{display:flex;gap:10px;margin:8px 0 14px}
+.editor .meta select{width:auto;min-width:160px}
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.cal .h{padding:9px 10px;font-size:12px;font-weight:600;color:var(--muted);background:var(--bg2);border-bottom:1px solid var(--line);text-transform:uppercase;letter-spacing:.05em}
+.cal .d{min-height:104px;padding:7px 8px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);cursor:pointer;overflow:hidden}
+.cal .d:nth-child(7n){border-right:0}
+.cal .d:hover{background:var(--bg2)}.cal .d.out{background:var(--bg2);opacity:.55}
+.cal .d .n{display:inline-grid;place-items:center;min-width:22px;height:22px;font-size:12.5px;color:var(--fg2);border-radius:11px;margin-bottom:3px}
+.cal .d.today .n{background:var(--accent);color:#fff;font-weight:600}
+.ev{font-size:12px;line-height:1.4;border-radius:5px;padding:2px 7px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.ev.task{background:color-mix(in srgb,var(--accent) 14%,var(--bg));color:color-mix(in srgb,var(--accent) 80%,var(--fg))}
+.ev.event{background:var(--greenbg);color:var(--green)}
+.ev.late{background:var(--redbg);color:var(--red)}
+.legend{display:inline-flex;gap:14px;margin-left:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+@media(max-width:900px){.cols{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){body{flex-direction:column}aside{width:100%;height:auto;position:static}nav{flex-direction:row;flex-wrap:wrap}main{padding:22px 18px}.board{grid-template-columns:1fr}.notes{grid-template-columns:1fr}.cal .d{min-height:62px}}
 </style>
 </head>
 <body>
 <aside>
-  <h1><span class="dot"></span><span id="appName">Meu Workspace</span></h1>
-  <input id="q" placeholder="🔎 Buscar tudo…" oninput="search(this.value)">
+  <div class="brand"><span class="mark" id="mark"></span><span id="appName">Meu Workspace</span></div>
+  <div class="sbox"><span id="sIcon"></span><input id="q" placeholder="Buscar…" oninput="search(this.value)"></div>
   <nav id="nav"></nav>
-  <div class="sp"></div>
-  <nav><a id="cfgLink">⚙ Personalizar</a></nav>
+  <div class="grow"></div>
+  <nav><a id="cfgLink"></a></nav>
 </aside>
 <main id="main"></main>
-
 <dialog id="dlg"><form method="dialog" id="form"></form></dialog>
 
 <script>
+const P = {
+  home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  tasks:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="m8 12 3 3 5-6"/>',
+  note:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+  calendar:'<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/>',
+  sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  pin:'<path d="M12 16v5M8 3h8l-1 6 3 4H6l3-4z"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  left:'<path d="m15 18-6-6 6-6"/>', right:'<path d="m9 18 6-6-6-6"/>',
+  alert:'<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>',
+  board:'<rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="10" rx="1.5"/><rect x="17" y="4" width="4" height="13" rx="1.5"/>',
+  check:'<path d="m5 12 4.5 4.5L19 7"/>',
+  layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+};
+const ic = (n, cls = '') => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+
 const STATUS_T = {todo:'A fazer', doing:'Em andamento', done:'Concluída'};
 const STATUS_P = {andamento:'Em andamento', pausado:'Pausado', concluido:'Concluído'};
 const PRIO = {alta:'Alta', media:'Média', baixa:'Baixa'};
 const S = {clients:[], projects:[], tasks:[], notes:[], events:[], noteId:null, cal:new Date(), q:'', view:'inicio', param:null, taskMode:'board', filter:{}};
 const $ = (s) => document.querySelector(s);
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const today = () => new Date().toISOString().slice(0, 10);
-const fmt = (d) => d ? d.split('-').reverse().join('/') : '—';
+const isoOf = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const today = () => isoOf(new Date());
+const addDays = (iso, n) => { const d = new Date(iso + 'T12:00'); d.setDate(d.getDate() + n); return isoOf(d); };
+const fmt = (d) => d ? d.split('-').reverse().slice(0,2).join('/') : '—';
 const late = (d, done) => d && !done && d < today();
+function dayLabel(iso) {
+  if (iso === today()) return 'Hoje'; if (iso === addDays(today(), 1)) return 'Amanhã';
+  const w = new Date(iso + 'T12:00').toLocaleDateString('pt-BR', {weekday:'long'});
+  return w.charAt(0).toUpperCase() + w.slice(1);
+}
 
 async function api(method, path, body) {
   const r = await fetch('/api/' + path, {method, headers:{'Content-Type':'application/json'}, body: body ? JSON.stringify(body) : undefined});
@@ -104,6 +192,7 @@ async function load() {
 }
 const client = (id) => S.clients.find((c) => c.id == id);
 const project = (id) => S.projects.find((p) => p.id == id);
+const ctx = (t) => { const p = project(t.project_id); return p ? [p.name, client(p.client_id)?.name].filter(Boolean).join(' · ') : 'Sem projeto'; };
 
 /* ---------- personalização ---------- */
 const cfg = Object.assign({name:'Meu Workspace', accent:'#2f6fed', theme:'light'}, JSON.parse(localStorage.getItem('cfg') || '{}'));
@@ -113,6 +202,8 @@ function applyCfg() {
   document.documentElement.dataset.theme = cfg.theme;
   localStorage.setItem('cfg', JSON.stringify(cfg));
 }
+$('#mark').innerHTML = ic('layers'); $('#sIcon').innerHTML = ic('search');
+$('#cfgLink').innerHTML = ic('sliders') + 'Personalizar';
 $('#cfgLink').onclick = () => openForm('Personalizar', [
   {k:'name', l:'Nome do workspace', v:cfg.name},
   {k:'accent', l:'Cor de destaque', v:cfg.accent, type:'color'},
@@ -122,12 +213,12 @@ $('#cfgLink').onclick = () => openForm('Personalizar', [
 /* ---------- formulário genérico ---------- */
 function openForm(title, fields, onSave, onDelete) {
   const f = $('#form');
-  f.innerHTML = `<h3 style="margin:0">${esc(title)}</h3>` + fields.map((x) => {
+  f.innerHTML = `<h3>${esc(title)}</h3>` + fields.map((x) => {
     const v = x.v ?? '';
     if (x.opts) return `<label>${x.l}</label><select name="${x.k}">${Object.entries(x.opts).map(([k,t]) => `<option value="${esc(k)}" ${k==v?'selected':''}>${esc(t)}</option>`).join('')}</select>`;
     if (x.type === 'textarea') return `<label>${x.l}</label><textarea name="${x.k}" rows="3">${esc(v)}</textarea>`;
     return `<label>${x.l}</label><input name="${x.k}" type="${x.type || 'text'}" value="${esc(v)}" ${x.req ? 'required' : ''}>`;
-  }).join('') + `<div class="actions">${onDelete ? '<button type="button" class="ghost" id="del" style="margin-right:auto;color:#d33">Excluir</button>' : ''}<button type="button" class="ghost" id="cancel">Cancelar</button><button>Salvar</button></div>`;
+  }).join('') + `<div class="actions">${onDelete ? `<button type="button" class="ghost danger" id="del" style="margin-right:auto">${ic('trash')}Excluir</button>` : ''}<button type="button" class="ghost" id="cancel">Cancelar</button><button>Salvar</button></div>`;
   $('#cancel').onclick = () => $('#dlg').close();
   if (onDelete) $('#del').onclick = async () => { if (confirm('Excluir?')) { await onDelete(); $('#dlg').close(); load(); } };
   f.onsubmit = async (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(f)); await onSave(d); $('#dlg').close(); load(); };
@@ -145,24 +236,25 @@ function editClient(c = {}) {
 function editProject(p = {}) {
   openForm(p.id ? 'Editar projeto' : 'Novo projeto', [
     {k:'name', l:'Nome', v:p.name, req:1}, {k:'client_id', l:'Cliente', v:p.client_id ?? '', opts:opts(S.clients,'name')},
-    {k:'status', l:'Status', v:p.status || 'andamento', opts:STATUS_P}, {k:'deadline', l:'Prazo', v:p.deadline, type:'date'},
+    {k:'status', l:'Status', v:p.status || 'andamento', opts:STATUS_P}, {k:'deadline', l:'Data de entrega', v:p.deadline, type:'date'},
     {k:'description', l:'Descrição', v:p.description, type:'textarea'},
   ], (d) => { d.client_id = nul(d.client_id); return p.id ? api('PUT','projects/'+p.id,d) : api('POST','projects',d); }, p.id && (() => api('DELETE','projects/'+p.id)));
 }
 function editTask(t = {}) {
   openForm(t.id ? 'Editar tarefa' : 'Nova tarefa', [
-    {k:'title', l:'Título', v:t.title, req:1}, {k:'project_id', l:'Projeto', v:t.project_id ?? S.param ?? '', opts:opts(S.projects,'name')},
+    {k:'title', l:'Título', v:t.title, req:1}, {k:'project_id', l:'Projeto', v:t.project_id ?? (S.view==='projetos' ? S.param : '') ?? '', opts:opts(S.projects,'name')},
     {k:'status', l:'Status', v:t.status || 'todo', opts:STATUS_T}, {k:'priority', l:'Prioridade', v:t.priority || 'media', opts:PRIO},
-    {k:'due', l:'Prazo', v:t.due, type:'date'}, {k:'notes', l:'Notas', v:t.notes, type:'textarea'},
+    {k:'due', l:'Data', v:t.due, type:'date'}, {k:'notes', l:'Notas', v:t.notes, type:'textarea'},
   ], (d) => { d.project_id = nul(d.project_id); return t.id ? api('PUT','tasks/'+t.id,d) : api('POST','tasks',d); }, t.id && (() => api('DELETE','tasks/'+t.id)));
 }
-
 function editEvent(e = {}) {
-  openForm(e.id ? 'Editar evento' : 'Novo evento', [
+  openForm(e.id ? 'Editar compromisso' : 'Novo compromisso', [
     {k:'title', l:'Título', v:e.title, req:1}, {k:'date', l:'Data', v:e.date, type:'date', req:1}, {k:'time', l:'Hora', v:e.time, type:'time'},
     {k:'project_id', l:'Projeto', v:e.project_id ?? '', opts:opts(S.projects,'name')}, {k:'notes', l:'Notas', v:e.notes, type:'textarea'},
   ], (d) => { d.project_id = nul(d.project_id); return e.id ? api('PUT','events/'+e.id,d) : api('POST','events',d); }, e.id && (() => api('DELETE','events/'+e.id)));
 }
+const taskById = (id) => S.tasks.find((x) => x.id == id), eventById = (id) => S.events.find((x) => x.id == id);
+
 async function newNote(project_id = null, client_id = null) {
   const n = await api('POST','notes',{title:'Nova nota', project_id, client_id}); S.noteId = n.id; S.view = 'notas'; await load(); render();
 }
@@ -170,143 +262,168 @@ let saveT;
 function saveNote(id) {
   clearTimeout(saveT);
   saveT = setTimeout(async () => {
-    const g = (k) => $('#n_' + k).value;
-    await api('PUT','notes/'+id,{title:g('title'), content:g('content'), project_id:nul(g('project_id')), client_id:nul(g('client_id'))});
-    const n = S.notes.find((x) => x.id == id); Object.assign(n, {title:g('title'), content:g('content'), project_id:nul(g('project_id')), client_id:nul(g('client_id'))});
-    const t = document.querySelector(`.nlist [data-n="${id}"] h3`); if (t) t.textContent = g('title') || 'Sem título';
-    $('#saved').textContent = 'Salvo ✓';
+    const g = (k) => $('#n_' + k).value, v = {title:g('title'), content:g('content'), project_id:nul(g('project_id')), client_id:nul(g('client_id'))};
+    await api('PUT','notes/'+id, v);
+    Object.assign(S.notes.find((x) => x.id == id), v);
+    const t = document.querySelector(`.nlist [data-n="${id}"] .ti`); if (t) t.textContent = v.title || 'Sem título';
+    $('#saved').textContent = 'Salvo';
   }, 500);
   $('#saved').textContent = 'Salvando…';
 }
 async function togglePin(id) { const n = S.notes.find((x) => x.id == id); await api('PUT','notes/'+id,{pinned:n.pinned?0:1}); load(); }
 async function delNote(id) { if (!confirm('Excluir esta nota?')) return; await api('DELETE','notes/'+id); S.noteId = null; load(); }
-function search(v) { S.q = v.trim(); if (S.q) { S.view = 'busca'; } else if (S.view === 'busca') S.view = 'inicio'; render(); }
+function search(v) { S.q = v.trim(); if (S.q) S.view = 'busca'; else if (S.view === 'busca') S.view = 'inicio'; render(); }
 function calMove(d) { S.cal = new Date(S.cal.getFullYear(), S.cal.getMonth() + d, 1); render(); }
+async function setStatus(id, status) { await api('PUT','tasks/'+id,{status}); load(); }
+const go = (v, p = null) => { S.view = v; S.param = p; render(); };
+
+/* ---------- componentes ---------- */
+const NAV = [['inicio','home','Início'],['projetos','folder','Projetos'],['tarefas','tasks','Tarefas'],['notas','note','Notas'],['calendario','calendar','Calendário'],['prazos','clock','Entregas'],['clientes','users','Clientes']];
+const head = (t, s, right = '') => `<div class="head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><h2>${t}</h2><div class="sub">${s}</div></div><div class="bar" style="margin:0">${right}</div></div>`;
+const dateTag = (d, done) => d ? `<span class="tag ${late(d, done) ? 'late' : ''}">${ic('calendar')}${fmt(d)}</span>` : '';
+const prioTag = (p) => `<span class="tag ${p}">${PRIO[p]}</span>`;
+const sec = (t, n) => `<h3 class="sec">${t}${n != null ? `<span class="ct">${n}</span>` : ''}</h3>`;
+
+const taskCard = (t) => `<div class="card click" draggable="true" data-id="${t.id}" onclick="editTask(taskById(${t.id}))">
+  <div class="ti ${t.status==='done'?'done':''}" ${t.status==='done'?'style="text-decoration:line-through;color:var(--muted)"':''}>${esc(t.title)}</div>
+  <div class="me">${esc(ctx(t))}</div>
+  <div class="foot">${prioTag(t.priority)}${dateTag(t.due, t.status==='done')}</div></div>`;
+
+const taskRow = (t, showDate = true) => `<div class="item ${t.status==='done'?'done':''}" onclick="editTask(taskById(${t.id}))">
+  <button class="chk ${t.status==='done'?'on':''}" title="Concluir" onclick="event.stopPropagation();setStatus(${t.id},'${t.status==='done'?'todo':'done'}')">${ic('check')}</button>
+  <div class="grow"><div class="ti">${esc(t.title)}</div><div class="me">${esc(ctx(t))}</div></div>
+  ${prioTag(t.priority)}${showDate ? dateTag(t.due, t.status==='done') : ''}</div>`;
+const panel = (rows, empty) => `<div class="panel">${rows.length ? rows.join('') : `<div class="empty">${empty}</div>`}</div>`;
+
+function board(ts) {
+  return `<div class="board">${Object.entries(STATUS_T).map(([k,l]) => { const c = ts.filter(t=>t.status===k);
+    return `<div class="col" data-status="${k}"><h4><span>${l}</span><span>${c.length}</span></h4>${c.map(taskCard).join('')}</div>`; }).join('')}</div>`;
+}
+function list(ts) {
+  return `<div class="panel">${ts.length ? ts.map((t) => taskRow(t)).join('') : '<div class="empty">Nenhuma tarefa.</div>'}</div>`;
+}
 
 /* ---------- views ---------- */
-const NAV = [['inicio','🏠 Início'],['projetos','📁 Projetos'],['tarefas','✅ Tarefas'],['notas','📝 Notas'],['calendario','🗓 Calendário'],['prazos','⏰ Prazos'],['clientes','👥 Clientes']];
-const go = (v, p = null) => { S.view = v; S.param = p; render(); };
-const taskCard = (t) => `<div class="card click" draggable="true" data-id="${t.id}" onclick="editTask(S.tasks.find(x=>x.id==${t.id}))">
-  <div class="${t.status==='done'?'done':''}">${esc(t.title)}</div>
-  <div class="meta">${esc(project(t.project_id)?.name || 'Sem projeto')}</div>
-  <div style="margin-top:6px"><span class="tag ${t.priority}">${PRIO[t.priority]}</span> ${t.due ? `<span class="tag ${late(t.due,t.status==='done')?'late':''}">${fmt(t.due)}</span>` : ''}</div></div>`;
-
 const views = {
   inicio() {
-    const open = S.tasks.filter((t) => t.status !== 'done');
-    const overdue = open.filter((t) => late(t.due));
-    const soon = open.filter((t) => t.due && t.due >= today()).sort((a,b) => a.due.localeCompare(b.due)).slice(0, 6);
-    return `<h2>Início</h2><div class="sub">Visão geral do que está em andamento.</div>
+    const t0 = today(), open = S.tasks.filter((t) => t.status !== 'done');
+    const overdue = open.filter((t) => late(t.due)).sort((a,b) => a.due.localeCompare(b.due));
+    const dueToday = open.filter((t) => t.due === t0);
+    const undated = open.filter((t) => !t.due);
+    const doing = open.filter((t) => t.status === 'doing');
+    const pending = open.length;
+    const end = addDays(t0, 7);
+    // agenda dos próximos 7 dias: tarefas + compromissos
+    const days = {};
+    open.filter((t) => t.due && t.due >= t0 && t.due <= end).forEach((t) => (days[t.due] ||= []).push({k:'t', time:'', t}));
+    S.events.filter((e) => e.date >= t0 && e.date <= end).forEach((e) => (days[e.date] ||= []).push({k:'e', time:e.time || '', e}));
+    const agenda = Object.keys(days).sort().map((d) => `<div class="day ${d===t0?'today':''}"><span>${dayLabel(d)}</span><span>${fmt(d)}</span></div>` +
+      days[d].sort((a,b) => (a.time || '99').localeCompare(b.time || '99')).map((x) => x.k === 't' ? taskRow(x.t, false)
+        : `<div class="item" onclick="editEvent(eventById(${x.e.id}))"><span class="dot time"></span><div class="grow"><div class="ti">${esc(x.e.title)}</div><div class="me">Compromisso${x.e.project_id ? ' · ' + esc(project(x.e.project_id)?.name || '') : ''}</div></div><span class="when">${esc(x.e.time) || 'Dia todo'}</span></div>`).join(''));
+    const active = S.projects.filter((p) => p.status === 'andamento');
+    const pinned = S.notes.filter((n) => n.pinned);
+    return `${head('Início', new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}).replace(/^./, (c)=>c.toUpperCase()), '')}
     <div class="stats">
-      <div class="card stat"><b>${S.projects.filter(p=>p.status==='andamento').length}</b><span class="meta">projetos ativos</span></div>
-      <div class="card stat"><b>${open.length}</b><span class="meta">tarefas abertas</span></div>
-      <div class="card stat"><b style="color:${overdue.length?'#d33':'inherit'}">${overdue.length}</b><span class="meta">atrasadas</span></div>
-      <div class="card stat"><b>${S.clients.length}</b><span class="meta">clientes</span></div>
+      <div class="stat ${overdue.length?'warn':''}"><div class="lb">${ic('alert')}Atrasadas</div><b>${overdue.length}</b></div>
+      <div class="stat"><div class="lb">${ic('calendar')}Para hoje</div><b>${dueToday.length + S.events.filter(e=>e.date===t0).length}</b></div>
+      <div class="stat"><div class="lb">${ic('tasks')}Pendentes</div><b>${pending}</b></div>
+      <div class="stat"><div class="lb">${ic('folder')}Projetos ativos</div><b>${active.length}</b></div>
     </div>
-    <div class="bar"><button onclick="editTask()">+ Tarefa</button><button class="ghost" onclick="newNote()">+ Nota</button><button class="ghost" onclick="editEvent({date:today()})">+ Evento</button><button class="ghost" onclick="editProject()">+ Projeto</button></div>
-    <h3 class="sec">Hoje e próximos eventos</h3><div class="grid">${S.events.filter(e=>e.date>=today()).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).slice(0,4).map(e=>`<div class="card click" onclick="editEvent(S.events.find(x=>x.id==${e.id}))"><h3>${esc(e.title)}</h3><div class="meta">${fmt(e.date)} ${esc(e.time)}</div></div>`).join('') || '<div class="empty">Sem eventos.</div>'}</div>
-    <h3 class="sec">Atrasadas</h3><div class="grid">${overdue.map(taskCard).join('') || '<div class="empty">Nada atrasado 🎉</div>'}</div>
-    <h3 class="sec">Próximos prazos</h3><div class="grid">${soon.map(taskCard).join('') || '<div class="empty">Sem prazos futuros.</div>'}</div>
-    <h3 class="sec">Notas fixadas</h3><div class="grid">${S.notes.filter(n=>n.pinned).map(n=>`<div class="card click" onclick="S.noteId=${n.id};go('notas')"><h3>${esc(n.title||'Sem título')}</h3><div class="meta">${esc(n.content.slice(0,90))}</div></div>`).join('') || '<div class="empty">Fixe notas importantes (📌) para vê-las aqui.</div>'}</div>`;
+    <div class="cols">
+      <div>
+        ${overdue.length ? `<div class="block">${sec('Atrasadas', overdue.length)}${panel(overdue.map((t) => taskRow(t)))}</div>` : ''}
+        <div class="block">${sec('Próximos 7 dias')}<div class="panel">${agenda.length ? agenda.join('') : '<div class="empty">Nada agendado para os próximos 7 dias.</div>'}</div></div>
+        <div class="block">${sec('Em andamento', doing.length)}${panel(doing.map((t) => taskRow(t)), 'Nenhuma tarefa em andamento.')}</div>
+      </div>
+      <div>
+        <div class="block">${sec('Sem data, organizar na agenda', undated.length)}${panel(undated.slice(0,8).map((t) => taskRow(t, false)), 'Todas as tarefas têm data.')}</div>
+        <div class="block">${sec('Projetos ativos', active.length)}${panel(active.map((p) => { const ts = S.tasks.filter(t=>t.project_id==p.id), d = ts.filter(t=>t.status==='done').length, pc = ts.length ? Math.round(d/ts.length*100) : 0;
+          return `<div class="item" style="display:block" onclick="go('projetos',${p.id})"><div style="display:flex;justify-content:space-between;gap:10px"><div class="ti">${esc(p.name)}</div><span class="me">${d}/${ts.length}</span></div><div class="me">${esc(client(p.client_id)?.name || 'Sem cliente')}${p.deadline ? ' · entrega ' + fmt(p.deadline) : ''}</div><div class="prog"><i style="width:${pc}%"></i></div></div>`; }), 'Nenhum projeto ativo.')}</div>
+        ${pinned.length ? `<div class="block">${sec('Notas fixadas', pinned.length)}${panel(pinned.map((n) => `<div class="item" onclick="S.noteId=${n.id};go('notas')">${ic('note')}<div class="grow"><div class="ti">${esc(n.title || 'Sem título')}</div><div class="me">${esc(n.content.slice(0,70))}</div></div></div>`))}</div>` : ''}
+      </div>
+    </div>`;
   },
   projetos() {
     if (S.param) return views.projeto(S.param);
-    return `<h2>Projetos</h2><div class="sub">Todos os seus projetos.</div>
-    <div class="bar"><button onclick="editProject()">+ Novo projeto</button></div>
+    return `${head('Projetos', 'Todos os projetos e o andamento de cada um.', `<button onclick="editProject()">${ic('plus')}Novo projeto</button>`)}
     <div class="grid">${S.projects.map((p) => {
-      const ts = S.tasks.filter((t) => t.project_id == p.id), d = ts.filter((t) => t.status==='done').length;
-      return `<div class="card click" onclick="go('projetos',${p.id})"><h3>${esc(p.name)}</h3>
-      <div class="meta">${esc(client(p.client_id)?.name || 'Sem cliente')}</div>
-      <div style="margin:8px 0"><span class="tag">${STATUS_P[p.status]}</span> <span class="tag ${late(p.deadline,p.status==='concluido')?'late':''}">${fmt(p.deadline)}</span></div>
-      <div class="meta">${d}/${ts.length} tarefas</div></div>`; }).join('') || '<div class="empty">Nenhum projeto ainda.</div>'}</div>`;
+      const ts = S.tasks.filter((t) => t.project_id == p.id), d = ts.filter((t) => t.status==='done').length, pc = ts.length ? Math.round(d/ts.length*100) : 0;
+      return `<div class="card click" onclick="go('projetos',${p.id})"><div class="ti">${esc(p.name)}</div>
+      <div class="me">${esc(client(p.client_id)?.name || 'Sem cliente')}</div>
+      <div class="prog"><i style="width:${pc}%"></i></div>
+      <div class="foot"><span class="tag">${STATUS_P[p.status]}</span>${p.deadline ? `<span class="tag ${late(p.deadline,p.status==='concluido')?'late':''}">${ic('clock')}Entrega ${fmt(p.deadline)}</span>` : ''}<span class="me" style="margin-left:auto">${d}/${ts.length} tarefas</span></div></div>`; }).join('') || '<div class="empty" style="grid-column:1/-1">Nenhum projeto ainda.</div>'}</div>`;
   },
   projeto(id) {
     const p = project(id); if (!p) { S.param = null; return views.projetos(); }
-    const ts = S.tasks.filter((t) => t.project_id == id);
-    return `<div class="bar"><button class="ghost" onclick="go('projetos')">← Projetos</button></div>
-    <h2>${esc(p.name)}</h2><div class="sub">${esc(client(p.client_id)?.name || 'Sem cliente')} · ${STATUS_P[p.status]} · prazo ${fmt(p.deadline)}</div>
-    ${p.description ? `<p>${esc(p.description)}</p>` : ''}
-    <div class="bar"><button onclick="editTask()">+ Nova tarefa</button><button class="ghost" onclick="editProject(project(${id}))">Editar projeto</button></div>
-    ${board(ts)}
-    <h3 class="sec">Notas do projeto</h3><div class="bar"><button class="ghost" onclick="newNote(${id})">+ Nota neste projeto</button></div>
-    <div class="grid">${S.notes.filter(n=>n.project_id==id).map(n=>`<div class="card click" onclick="S.noteId=${n.id};go('notas')"><h3>${esc(n.title||'Sem título')}</h3><div class="meta">${esc(n.content.slice(0,90))}</div></div>`).join('') || '<div class="empty">Sem notas.</div>'}</div>`;
+    const ts = S.tasks.filter((t) => t.project_id == id), ns = S.notes.filter((n) => n.project_id == id);
+    return `<div class="bar"><button class="ghost" onclick="go('projetos')">${ic('left')}Projetos</button></div>
+    ${head(esc(p.name), `${esc(client(p.client_id)?.name || 'Sem cliente')} · ${STATUS_P[p.status]}${p.deadline ? ' · entrega ' + fmt(p.deadline) : ''}`,
+      `<button class="ghost" onclick="editProject(project(${id}))">Editar</button><button onclick="editTask()">${ic('plus')}Nova tarefa</button>`)}
+    ${p.description ? `<p style="margin:-6px 0 24px;color:var(--fg2);max-width:70ch">${esc(p.description)}</p>` : ''}
+    <div class="block">${sec('Tarefas', ts.length)}${board(ts)}</div>
+    <div class="block">${sec('Notas', ns.length)}<div class="bar"><button class="ghost" onclick="newNote(${id})">${ic('plus')}Nota neste projeto</button></div>
+    <div class="grid">${ns.map((n) => `<div class="card click" onclick="S.noteId=${n.id};go('notas')"><div class="ti">${esc(n.title||'Sem título')}</div><div class="me">${esc(n.content.slice(0,90))}</div></div>`).join('') || '<div class="empty" style="grid-column:1/-1">Sem notas.</div>'}</div></div>`;
   },
   tarefas() {
-    const f = S.filter;
-    let ts = S.tasks.filter((t) => (!f.project || t.project_id == f.project) && (!f.client || project(t.project_id)?.client_id == f.client));
-    return `<h2>Tarefas</h2><div class="sub">Arraste entre colunas para mudar o status.</div>
-    <div class="bar"><button onclick="editTask()">+ Nova tarefa</button>
-      <select onchange="S.filter.project=this.value;render()">${Object.entries(opts(S.projects,'name','Todos os projetos')).map(([k,v])=>`<option value="${k}" ${k==(f.project||'')?'selected':''}>${esc(v)}</option>`).join('')}</select>
-      <select onchange="S.filter.client=this.value;render()">${Object.entries(opts(S.clients,'name','Todos os clientes')).map(([k,v])=>`<option value="${k}" ${k==(f.client||'')?'selected':''}>${esc(v)}</option>`).join('')}</select>
-      <button class="ghost" onclick="S.taskMode=S.taskMode==='board'?'list':'board';render()">${S.taskMode==='board'?'Ver lista':'Ver quadro'}</button></div>
+    const f = S.filter, ts = S.tasks.filter((t) => (!f.project || t.project_id == f.project) && (!f.client || project(t.project_id)?.client_id == f.client));
+    const sel = (key, list, all) => `<select onchange="S.filter.${key}=this.value;render()">${Object.entries(opts(list,'name',all)).map(([k,v]) => `<option value="${k}" ${k==(f[key]||'')?'selected':''}>${esc(v)}</option>`).join('')}</select>`;
+    return `${head('Tarefas', S.taskMode==='board' ? 'Arraste os cartões entre as colunas para mudar o status.' : 'Marque as tarefas conforme concluir.',
+      `${sel('project', S.projects, 'Todos os projetos')}${sel('client', S.clients, 'Todos os clientes')}<button class="ghost" onclick="S.taskMode=S.taskMode==='board'?'list':'board';render()">${ic(S.taskMode==='board'?'list':'board')}${S.taskMode==='board'?'Lista':'Quadro'}</button><button onclick="editTask()">${ic('plus')}Nova tarefa</button>`)}
     ${S.taskMode==='board' ? board(ts) : list(ts)}`;
   },
   notas() {
     const ns = [...S.notes].sort((a,b) => (b.pinned - a.pinned) || b.updated.localeCompare(a.updated));
-    if (!S.noteId || !S.notes.find(n => n.id == S.noteId)) S.noteId = ns[0]?.id ?? null;
-    const n = S.notes.find(x => x.id == S.noteId);
-    const sel = (k, list) => `<select id="n_${k}" onchange="saveNote(${n?.id})">${Object.entries(opts(list,'name')).map(([v,t])=>`<option value="${v}" ${v==(n?.[k]??'')?'selected':''}>${esc(t)}</option>`).join('')}</select>`;
-    return `<h2>Notas</h2><div class="sub">Ideias, reuniões, briefings. Tudo salva sozinho.</div>
-    <div class="notes"><div class="nlist"><div class="bar"><button onclick="newNote()">+ Nova nota</button></div>
-      ${ns.map(x=>`<div class="card click ${x.id==S.noteId?'sel':''}" data-n="${x.id}" onclick="S.noteId=${x.id};render()"><h3>${x.pinned?'📌 ':''}${esc(x.title||'Sem título')}</h3><div class="meta">${esc(project(x.project_id)?.name || client(x.client_id)?.name || x.content.slice(0,40) || '—')}</div></div>`).join('') || '<div class="empty">Nenhuma nota.</div>'}</div>
-    ${n ? `<div class="editor"><div class="bar"><span class="meta" id="saved"></span><span style="flex:1"></span><button class="ghost" onclick="togglePin(${n.id})">${n.pinned?'Desafixar':'📌 Fixar'}</button><button class="ghost" onclick="delNote(${n.id})">Excluir</button></div>
+    if (!S.noteId || !S.notes.find((n) => n.id == S.noteId)) S.noteId = ns[0]?.id ?? null;
+    const n = S.notes.find((x) => x.id == S.noteId);
+    const sel = (k, list, all) => `<select id="n_${k}" onchange="saveNote(${n?.id})">${Object.entries(opts(list,'name',all)).map(([v,t]) => `<option value="${v}" ${v==(n?.[k]??'')?'selected':''}>${esc(t)}</option>`).join('')}</select>`;
+    return `${head('Notas', 'Ideias, reuniões e briefings. Tudo é salvo automaticamente.', `<button onclick="newNote()">${ic('plus')}Nova nota</button>`)}
+    <div class="notes"><div class="nlist">
+      ${ns.map((x) => `<div class="card click ${x.id==S.noteId?'sel':''}" data-n="${x.id}" onclick="S.noteId=${x.id};render()"><div class="ti">${esc(x.title||'Sem título')}</div><div class="me">${x.pinned?'Fixada · ':''}${esc(project(x.project_id)?.name || client(x.client_id)?.name || x.content.slice(0,40) || 'Vazia')}</div></div>`).join('') || '<div class="empty">Nenhuma nota.</div>'}</div>
+    ${n ? `<div class="editor"><div class="bar" style="margin-bottom:6px"><span class="me" id="saved"></span><span class="grow"></span><button class="ghost" onclick="togglePin(${n.id})">${ic('pin')}${n.pinned?'Desafixar':'Fixar'}</button><button class="ghost danger icon" title="Excluir" onclick="delNote(${n.id})">${ic('trash')}</button></div>
       <input class="t" id="n_title" value="${esc(n.title)}" placeholder="Título" oninput="saveNote(${n.id})">
-      <div class="bar" style="margin-top:6px">${sel('project_id', S.projects)}${sel('client_id', S.clients)}</div>
+      <div class="meta">${sel('project_id', S.projects, 'Sem projeto')}${sel('client_id', S.clients, 'Sem cliente')}</div>
       <textarea id="n_content" placeholder="Escreva aqui…" oninput="saveNote(${n.id})">${esc(n.content)}</textarea></div>` : '<div class="empty">Crie sua primeira nota.</div>'}</div>`;
   },
   calendario() {
     const y = S.cal.getFullYear(), m = S.cal.getMonth(), first = new Date(y, m, 1), start = new Date(y, m, 1 - first.getDay());
-    const iso = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    const by = {}; const add = (d, o) => d && (by[d] ||= []).push(o);
-    S.tasks.filter(t=>t.status!=='done').forEach(t => add(t.due, {c:late(t.due)?'task late':'task', t:'✓ '+t.title, f:`editTask(S.tasks.find(x=>x.id==${t.id}))`}));
-    S.projects.filter(p=>p.status!=='concluido').forEach(p => add(p.deadline, {c:'proj', t:'📁 '+p.name, f:`go('projetos',${p.id})`}));
-    S.events.forEach(e => add(e.date, {c:'event', t:(e.time?e.time+' ':'')+e.title, f:`editEvent(S.events.find(x=>x.id==${e.id}))`}));
-    let cells = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(d => `<div class="h">${d}</div>`).join('');
-    for (let i = 0; i < 42; i++) { const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i), k = iso(d);
-      cells += `<div class="d ${d.getMonth()!==m?'out':''} ${k===today()?'today':''}" onclick="editEvent({date:'${k}'})"><span class="n">${d.getDate()}</span>${(by[k]||[]).map(o=>`<div class="ev ${o.c}" onclick="event.stopPropagation();${o.f}">${esc(o.t)}</div>`).join('')}</div>`; }
-    const label = first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
-    return `<h2>Calendário</h2><div class="sub">Tarefas <span class="ev task">azul</span>, projetos <span class="ev proj">amarelo</span> e eventos <span class="ev event">verde</span>. Clique em um dia para criar um evento.</div>
-    <div class="bar"><button class="ghost" onclick="calMove(-1)">←</button><b style="min-width:150px;text-align:center;text-transform:capitalize">${label}</b><button class="ghost" onclick="calMove(1)">→</button><button class="ghost" onclick="S.cal=new Date();render()">Hoje</button></div><div class="cal">${cells}</div>`;
+    const by = {}, add = (d, o) => d && (by[d] ||= []).push(o);
+    // só tarefas e compromissos; projetos não entram no calendário
+    S.tasks.filter((t) => t.status !== 'done').forEach((t) => add(t.due, {c: late(t.due) ? 'task late' : 'task', t: t.title, f: `editTask(taskById(${t.id}))`}));
+    S.events.forEach((e) => add(e.date, {c:'event', t:(e.time ? e.time + ' ' : '') + e.title, f: `editEvent(eventById(${e.id}))`, s:e.time || ''}));
+    let cells = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map((d) => `<div class="h">${d}</div>`).join('');
+    for (let i = 0; i < 42; i++) { const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i), k = isoOf(d);
+      cells += `<div class="d ${d.getMonth()!==m?'out':''} ${k===today()?'today':''}" onclick="editEvent({date:'${k}'})"><span class="n">${d.getDate()}</span>${(by[k]||[]).map((o) => `<div class="ev ${o.c}" title="${esc(o.t)}" onclick="event.stopPropagation();${o.f}">${esc(o.t)}</div>`).join('')}</div>`; }
+    const label = first.toLocaleDateString('pt-BR', {month:'long', year:'numeric'});
+    return `${head('Calendário', `Tarefas e compromissos. Clique em um dia para adicionar um compromisso. <span class="legend"><span><i style="background:color-mix(in srgb,var(--accent) 40%,var(--bg))"></i>Tarefa</span><span><i style="background:var(--green)"></i>Compromisso</span></span>`,
+      `<button class="ghost icon" onclick="calMove(-1)">${ic('left')}</button><b style="min-width:140px;text-align:center;text-transform:capitalize">${label}</b><button class="ghost icon" onclick="calMove(1)">${ic('right')}</button><button class="ghost" onclick="S.cal=new Date();render()">Hoje</button>`)}
+    <div class="cal">${cells}</div>`;
   },
   busca() {
-    const q = S.q.toLowerCase(), has = (...v) => v.some(x => String(x ?? '').toLowerCase().includes(q));
-    const sec = (t, a) => a.length ? `<h3 class="sec">${t}</h3><div class="grid">${a.join('')}</div>` : '';
-    const card = (h, m, f) => `<div class="card click" onclick="${f}"><h3>${esc(h)}</h3><div class="meta">${esc(m)}</div></div>`;
-    const out = sec('Projetos', S.projects.filter(p=>has(p.name,p.description)).map(p=>card(p.name, client(p.client_id)?.name||'', `go('projetos',${p.id})`)))
-      + sec('Tarefas', S.tasks.filter(t=>has(t.title,t.notes)).map(t=>card(t.title, project(t.project_id)?.name||'', `editTask(S.tasks.find(x=>x.id==${t.id}))`)))
-      + sec('Notas', S.notes.filter(n=>has(n.title,n.content)).map(n=>card(n.title||'Sem título', n.content.slice(0,80), `S.noteId=${n.id};S.q='';$('#q').value='';go('notas')`)))
-      + sec('Clientes', S.clients.filter(c=>has(c.name,c.email,c.notes)).map(c=>card(c.name, c.email, `editClient(client(${c.id}))`)))
-      + sec('Eventos', S.events.filter(e=>has(e.title,e.notes)).map(e=>card(e.title, fmt(e.date), `editEvent(S.events.find(x=>x.id==${e.id}))`)));
-    return `<h2>Busca</h2><div class="sub">Resultados para “${esc(S.q)}”</div>${out || '<div class="empty">Nada encontrado.</div>'}`;
+    const q = S.q.toLowerCase(), has = (...v) => v.some((x) => String(x ?? '').toLowerCase().includes(q));
+    const grp = (t, a) => a.length ? `<div class="block">${sec(t, a.length)}<div class="grid">${a.join('')}</div></div>` : '';
+    const card = (h, m, f) => `<div class="card click" onclick="${f}"><div class="ti">${esc(h)}</div><div class="me">${esc(m)}</div></div>`;
+    const out = grp('Projetos', S.projects.filter((p) => has(p.name,p.description)).map((p) => card(p.name, client(p.client_id)?.name||'', `go('projetos',${p.id})`)))
+      + grp('Tarefas', S.tasks.filter((t) => has(t.title,t.notes)).map((t) => card(t.title, ctx(t), `editTask(taskById(${t.id}))`)))
+      + grp('Notas', S.notes.filter((n) => has(n.title,n.content)).map((n) => card(n.title||'Sem título', n.content.slice(0,80), `S.noteId=${n.id};S.q='';$('#q').value='';go('notas')`)))
+      + grp('Clientes', S.clients.filter((c) => has(c.name,c.email,c.notes)).map((c) => card(c.name, c.email, `editClient(client(${c.id}))`)))
+      + grp('Compromissos', S.events.filter((e) => has(e.title,e.notes)).map((e) => card(e.title, fmt(e.date), `editEvent(eventById(${e.id}))`)));
+    return `${head('Busca', `Resultados para “${esc(S.q)}”`)}${out || '<div class="empty">Nada encontrado.</div>'}`;
   },
   prazos() {
-    const items = [...S.tasks.filter(t=>t.due && t.status!=='done').map(t=>({d:t.due, kind:'Tarefa', name:t.title, sub:project(t.project_id)?.name, late:late(t.due), click:`editTask(S.tasks.find(x=>x.id==${t.id}))`})),
-      ...S.projects.filter(p=>p.deadline && p.status!=='concluido').map(p=>({d:p.deadline, kind:'Projeto', name:p.name, sub:client(p.client_id)?.name, late:late(p.deadline), click:`go('projetos',${p.id})`}))].sort((a,b)=>a.d.localeCompare(b.d));
-    return `<h2>Prazos</h2><div class="sub">Tarefas e projetos em ordem de data.</div>
-    <table><tr><th>Data</th><th>Tipo</th><th>Nome</th><th>Projeto / Cliente</th></tr>${items.map(i=>`<tr class="row" style="cursor:pointer" onclick="${i.click}"><td><span class="tag ${i.late?'late':''}">${fmt(i.d)}</span></td><td>${i.kind}</td><td>${esc(i.name)}</td><td class="meta">${esc(i.sub||'—')}</td></tr>`).join('')}</table>
-    ${items.length ? '' : '<div class="empty">Nenhum prazo definido.</div>'}`;
+    const items = S.projects.filter((p) => p.deadline && p.status !== 'concluido').map((p) => ({d:p.deadline, name:p.name, sub:client(p.client_id)?.name, late:late(p.deadline), f:`go('projetos',${p.id})`})).sort((a,b) => a.d.localeCompare(b.d));
+    return `${head('Entregas', 'Data de entrega de cada projeto em andamento. Compromissos e tarefas ficam no calendário.')}
+    <div class="panel">${items.map((i) => `<div class="item" onclick="${i.f}"><div class="grow"><div class="ti">${esc(i.name)}</div><div class="me">${esc(i.sub || 'Sem cliente')}</div></div>${dateTag(i.d)}</div>`).join('') || '<div class="empty">Nenhuma entrega definida.</div>'}</div>`;
   },
   clientes() {
-    return `<h2>Clientes</h2><div class="sub">Quem você atende e os projetos de cada um.</div>
-    <div class="bar"><button onclick="editClient()">+ Novo cliente</button></div>
-    <div class="grid">${S.clients.map((c) => { const ps = S.projects.filter(p=>p.client_id==c.id);
-      return `<div class="card click" onclick="editClient(client(${c.id}))"><h3>${esc(c.name)}</h3><div class="meta">${esc(c.email||'')} ${esc(c.phone||'')}</div>
-      <div style="margin-top:8px">${ps.map(p=>`<span class="tag">${esc(p.name)}</span> `).join('') || '<span class="meta">Sem projetos</span>'}</div></div>`; }).join('') || '<div class="empty">Nenhum cliente ainda.</div>'}</div>`;
+    return `${head('Clientes', 'Quem você atende e os projetos de cada um.', `<button onclick="editClient()">${ic('plus')}Novo cliente</button>`)}
+    <div class="grid">${S.clients.map((c) => { const ps = S.projects.filter((p) => p.client_id == c.id);
+      return `<div class="card click" onclick="editClient(client(${c.id}))"><div class="ti">${esc(c.name)}</div><div class="me">${esc([c.email, c.phone].filter(Boolean).join(' · ') || 'Sem contato')}</div>
+      <div class="foot">${ps.map((p) => `<span class="tag">${esc(p.name)}</span>`).join('') || '<span class="me">Sem projetos</span>'}</div></div>`; }).join('') || '<div class="empty" style="grid-column:1/-1">Nenhum cliente ainda.</div>'}</div>`;
   },
 };
 
-function board(ts) {
-  return `<div class="board">${Object.entries(STATUS_T).map(([k,l]) => `<div class="col" data-status="${k}"><h4>${l} · ${ts.filter(t=>t.status===k).length}</h4>${ts.filter(t=>t.status===k).map(taskCard).join('')}</div>`).join('')}</div>`;
-}
-function list(ts) {
-  return `<table><tr><th></th><th>Tarefa</th><th>Projeto</th><th>Prioridade</th><th>Prazo</th></tr>${ts.map(t=>`<tr class="row"><td><input type="checkbox" style="width:auto" ${t.status==='done'?'checked':''} onchange="setStatus(${t.id},this.checked?'done':'todo')"></td>
-  <td class="${t.status==='done'?'done':''}" style="cursor:pointer" onclick="editTask(S.tasks.find(x=>x.id==${t.id}))">${esc(t.title)}</td><td class="meta">${esc(project(t.project_id)?.name||'—')}</td><td><span class="tag ${t.priority}">${PRIO[t.priority]}</span></td><td><span class="tag ${late(t.due,t.status==='done')?'late':''}">${fmt(t.due)}</span></td></tr>`).join('')}</table>`;
-}
-async function setStatus(id, status) { await api('PUT','tasks/'+id,{status}); load(); }
-
 function render() {
-  $('#nav').innerHTML = NAV.map(([k,l]) => `<a class="${S.view===k?'on':''}" onclick="go('${k}')">${l}</a>`).join('');
-  $('#nav').innerHTML = NAV.map(([k,l]) => `<a class="${S.view===k?'on':''}" onclick="go('${k}')">${l}</a>`).join('');
+  $('#nav').innerHTML = NAV.map(([k,i,l]) => `<a class="${S.view===k?'on':''}" onclick="go('${k}')">${ic(i)}${l}</a>`).join('');
   $('#main').innerHTML = views[S.view]();
   document.querySelectorAll('[draggable]').forEach((el) => el.ondragstart = (e) => e.dataTransfer.setData('id', el.dataset.id));
   document.querySelectorAll('.col').forEach((c) => {

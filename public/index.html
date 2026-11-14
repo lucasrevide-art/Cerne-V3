@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meu Workspace</title>
+<style>
+:root{--accent:#2f6fed;--bg:#fff;--bg2:#f7f6f3;--fg:#37352f;--muted:#8a877f;--line:#e8e6e1;--radius:8px}
+[data-theme=dark]{--bg:#191919;--bg2:#202020;--fg:#e6e4df;--muted:#8c8a85;--line:#333}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);display:flex;min-height:100vh}
+aside{width:230px;background:var(--bg2);border-right:1px solid var(--line);padding:16px 10px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:2px}
+aside h1{font-size:15px;margin:0 8px 14px;display:flex;align-items:center;gap:8px}
+aside h1 span.dot{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+nav a{display:block;padding:6px 10px;border-radius:6px;color:var(--fg);text-decoration:none;cursor:pointer}
+nav a:hover{background:rgba(127,127,127,.12)}
+nav a.on{background:rgba(127,127,127,.18);font-weight:600}
+.sp{flex:1}
+main{flex:1;padding:32px 40px;max-width:1100px;overflow-x:auto}
+h2{margin:0 0 4px;font-size:26px}
+.sub{color:var(--muted);margin-bottom:22px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:6px 12px;cursor:pointer}
+button.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+button.link{background:none;color:var(--muted);padding:2px 6px}
+button.link:hover{color:#d33}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+.bar{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.bar input,.bar select{width:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;background:var(--bg)}
+.card.click{cursor:pointer}.card.click:hover{background:var(--bg2)}
+.card h3{margin:0 0 4px;font-size:15px}
+.meta{color:var(--muted);font-size:13px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;border-bottom:1px solid var(--line);padding:6px 8px}
+td{padding:7px 8px;border-bottom:1px solid var(--line)}
+tr.row:hover{background:var(--bg2)}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;background:rgba(127,127,127,.18)}
+.tag.alta{background:#f8d7d3;color:#8c2a1f}.tag.media{background:#fbe9c3;color:#7a5a0c}.tag.baixa{background:#d9ecd9;color:#2c6a2c}
+.tag.late{background:#f8d7d3;color:#8c2a1f}
+.board{display:grid;grid-template-columns:repeat(3,minmax(240px,1fr));gap:14px;align-items:start}
+.col{background:var(--bg2);border-radius:var(--radius);padding:10px;min-height:120px}
+.col h4{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.col .card{margin-bottom:8px;cursor:grab}
+.col.over{outline:2px dashed var(--accent)}
+.done{text-decoration:line-through;color:var(--muted)}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--fg);padding:20px;width:min(460px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 3px}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:26px}
+.stat b{font-size:28px;display:block}
+.empty{color:var(--muted);padding:20px 0}
+h3.sec{margin:26px 0 10px;font-size:16px}
+#q{margin:0 4px 10px;width:calc(100% - 8px)}
+.notes{display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:start}
+.nlist .card{margin-bottom:8px}.nlist .card.sel{border-color:var(--accent)}
+.editor input.t{font-size:24px;font-weight:700;border:0;padding:4px 0;background:transparent}
+.editor textarea{border:0;background:transparent;min-height:380px;resize:vertical;padding:4px 0;line-height:1.6}
+.editor input:focus,.editor textarea:focus{outline:none}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.cal .h{padding:6px;font-size:12px;color:var(--muted);border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+.cal .d{min-height:98px;padding:4px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);cursor:pointer;overflow:hidden}
+.cal .d:hover{background:var(--bg2)}.cal .d.out{opacity:.4}
+.cal .d .n{font-size:12px;color:var(--muted)}.cal .d.today .n{background:var(--accent);color:#fff;border-radius:10px;padding:0 6px}
+.ev{font-size:12px;border-radius:4px;padding:1px 5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:rgba(127,127,127,.18)}
+.ev.task{background:#dbe7ff;color:#1c3f8f}.ev.proj{background:#fbe9c3;color:#7a5a0c}.ev.event{background:#d9ecd9;color:#2c6a2c}.ev.late{background:#f8d7d3;color:#8c2a1f}
+[data-theme=dark] .ev.task{background:#22365f;color:#bcd0ff}[data-theme=dark] .ev.proj{background:#5a4513;color:#fbe9c3}[data-theme=dark] .ev.event{background:#1f4a1f;color:#cfe9cf}[data-theme=dark] .ev.late{background:#5c2a25;color:#f8d7d3}
+@media(max-width:760px){body{flex-direction:column}aside{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap}main{padding:20px}.board{grid-template-columns:1fr}.notes{grid-template-columns:1fr}.cal .d{min-height:60px}}
+</style>
+</head>
+<body>
+<aside>
+  <h1><span class="dot"></span><span id="appName">Meu Workspace</span></h1>
+  <input id="q" placeholder="🔎 Buscar tudo…" oninput="search(this.value)">
+  <nav id="nav"></nav>
+  <div class="sp"></div>
+  <nav><a id="cfgLink">⚙ Personalizar</a></nav>
+</aside>
+<main id="main"></main>
+
+<dialog id="dlg"><form method="dialog" id="form"></form></dialog>
+
+<script>
+const STATUS_T = {todo:'A fazer', doing:'Em andamento', done:'Concluída'};
+const STATUS_P = {andamento:'Em andamento', pausado:'Pausado', concluido:'Concluído'};
+const PRIO = {alta:'Alta', media:'Média', baixa:'Baixa'};
+const S = {clients:[], projects:[], tasks:[], notes:[], events:[], noteId:null, cal:new Date(), q:'', view:'inicio', param:null, taskMode:'board', filter:{}};
+const $ = (s) => document.querySelector(s);
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today = () => new Date().toISOString().slice(0, 10);
+const fmt = (d) => d ? d.split('-').reverse().join('/') : '—';
+const late = (d, done) => d && !done && d < today();
+
+async function api(method, path, body) {
+  const r = await fetch('/api/' + path, {method, headers:{'Content-Type':'application/json'}, body: body ? JSON.stringify(body) : undefined});
+  if (!r.ok) throw new Error('Erro na API');
+  return r.json();
+}
+async function load() {
+  [S.clients, S.projects, S.tasks, S.notes, S.events] = await Promise.all(['clients','projects','tasks','notes','events'].map((t) => api('GET', t)));
+  if (!document.activeElement?.closest?.('.editor')) render();
+}
+const client = (id) => S.clients.find((c) => c.id == id);
+const project = (id) => S.projects.find((p) => p.id == id);
+
+/* ---------- personalização ---------- */
+const cfg = Object.assign({name:'Meu Workspace', accent:'#2f6fed', theme:'light'}, JSON.parse(localStorage.getItem('cfg') || '{}'));
+function applyCfg() {
+  $('#appName').textContent = cfg.name; document.title = cfg.name;
+  document.documentElement.style.setProperty('--accent', cfg.accent);
+  document.documentElement.dataset.theme = cfg.theme;
+  localStorage.setItem('cfg', JSON.stringify(cfg));
+}
+$('#cfgLink').onclick = () => openForm('Personalizar', [
+  {k:'name', l:'Nome do workspace', v:cfg.name},
+  {k:'accent', l:'Cor de destaque', v:cfg.accent, type:'color'},
+  {k:'theme', l:'Tema', v:cfg.theme, opts:{light:'Claro', dark:'Escuro'}},
+], (v) => { Object.assign(cfg, v); applyCfg(); });
+
+/* ---------- formulário genérico ---------- */
+function openForm(title, fields, onSave, onDelete) {
+  const f = $('#form');
+  f.innerHTML = `<h3 style="margin:0">${esc(title)}</h3>` + fields.map((x) => {
+    const v = x.v ?? '';
+    if (x.opts) return `<label>${x.l}</label><select name="${x.k}">${Object.entries(x.opts).map(([k,t]) => `<option value="${esc(k)}" ${k==v?'selected':''}>${esc(t)}</option>`).join('')}</select>`;
+    if (x.type === 'textarea') return `<label>${x.l}</label><textarea name="${x.k}" rows="3">${esc(v)}</textarea>`;
+    return `<label>${x.l}</label><input name="${x.k}" type="${x.type || 'text'}" value="${esc(v)}" ${x.req ? 'required' : ''}>`;
+  }).join('') + `<div class="actions">${onDelete ? '<button type="button" class="ghost" id="del" style="margin-right:auto;color:#d33">Excluir</button>' : ''}<button type="button" class="ghost" id="cancel">Cancelar</button><button>Salvar</button></div>`;
+  $('#cancel').onclick = () => $('#dlg').close();
+  if (onDelete) $('#del').onclick = async () => { if (confirm('Excluir?')) { await onDelete(); $('#dlg').close(); load(); } };
+  f.onsubmit = async (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(f)); await onSave(d); $('#dlg').close(); load(); };
+  $('#dlg').showModal();
+}
+const opts = (list, key, empty = '— nenhum —') => Object.fromEntries([['', empty], ...list.map((x) => [x.id, x[key]])]);
+const nul = (v) => v === '' ? null : Number(v);
+
+function editClient(c = {}) {
+  openForm(c.id ? 'Editar cliente' : 'Novo cliente', [
+    {k:'name', l:'Nome', v:c.name, req:1}, {k:'email', l:'E-mail', v:c.email, type:'email'},
+    {k:'phone', l:'Telefone', v:c.phone}, {k:'notes', l:'Notas', v:c.notes, type:'textarea'},
+  ], (d) => c.id ? api('PUT','clients/'+c.id,d) : api('POST','clients',d), c.id && (() => api('DELETE','clients/'+c.id)));
+}
+function editProject(p = {}) {
+  openForm(p.id ? 'Editar projeto' : 'Novo projeto', [
+    {k:'name', l:'Nome', v:p.name, req:1}, {k:'client_id', l:'Cliente', v:p.client_id ?? '', opts:opts(S.clients,'name')},
+    {k:'status', l:'Status', v:p.status || 'andamento', opts:STATUS_P}, {k:'deadline', l:'Prazo', v:p.deadline, type:'date'},
+    {k:'description', l:'Descrição', v:p.description, type:'textarea'},
+  ], (d) => { d.client_id = nul(d.client_id); return p.id ? api('PUT','projects/'+p.id,d) : api('POST','projects',d); }, p.id && (() => api('DELETE','projects/'+p.id)));
+}
+function editTask(t = {}) {
+  openForm(t.id ? 'Editar tarefa' : 'Nova tarefa', [
+    {k:'title', l:'Título', v:t.title, req:1}, {k:'project_id', l:'Projeto', v:t.project_id ?? S.param ?? '', opts:opts(S.projects,'name')},
+    {k:'status', l:'Status', v:t.status || 'todo', opts:STATUS_T}, {k:'priority', l:'Prioridade', v:t.priority || 'media', opts:PRIO},
+    {k:'due', l:'Prazo', v:t.due, type:'date'}, {k:'notes', l:'Notas', v:t.notes, type:'textarea'},
+  ], (d) => { d.project_id = nul(d.project_id); return t.id ? api('PUT','tasks/'+t.id,d) : api('POST','tasks',d); }, t.id && (() => api('DELETE','tasks/'+t.id)));
+}
+
+function editEvent(e = {}) {
+  openForm(e.id ? 'Editar evento' : 'Novo evento', [
+    {k:'title', l:'Título', v:e.title, req:1}, {k:'date', l:'Data', v:e.date, type:'date', req:1}, {k:'time', l:'Hora', v:e.time, type:'time'},
+    {k:'project_id', l:'Projeto', v:e.project_id ?? '', opts:opts(S.projects,'name')}, {k:'notes', l:'Notas', v:e.notes, type:'textarea'},
+  ], (d) => { d.project_id = nul(d.project_id); return e.id ? api('PUT','events/'+e.id,d) : api('POST','events',d); }, e.id && (() => api('DELETE','events/'+e.id)));
+}
+async function newNote(project_id = null, client_id = null) {
+  const n = await api('POST','notes',{title:'Nova nota', project_id, client_id}); S.noteId = n.id; S.view = 'notas'; await load(); render();
+}
+let saveT;
+function saveNote(id) {
+  clearTimeout(saveT);
+  saveT = setTimeout(async () => {
+    const g = (k) => $('#n_' + k).value;
+    await api('PUT','notes/'+id,{title:g('title'), content:g('content'), project_id:nul(g('project_id')), client_id:nul(g('client_id'))});
+    const n = S.notes.find((x) => x.id == id); Object.assign(n, {title:g('title'), content:g('content'), project_id:nul(g('project_id')), client_id:nul(g('client_id'))});
+    const t = document.querySelector(`.nlist [data-n="${id}"] h3`); if (t) t.textContent = g('title') || 'Sem título';
+    $('#saved').textContent = 'Salvo ✓';
+  }, 500);
+  $('#saved').textContent = 'Salvando…';
+}
+async function togglePin(id) { const n = S.notes.find((x) => x.id == id); await api('PUT','notes/'+id,{pinned:n.pinned?0:1}); load(); }
+async function delNote(id) { if (!confirm('Excluir esta nota?')) return; await api('DELETE','notes/'+id); S.noteId = null; load(); }
+function search(v) { S.q = v.trim(); if (S.q) { S.view = 'busca'; } else if (S.view === 'busca') S.view = 'inicio'; render(); }
+function calMove(d) { S.cal = new Date(S.cal.getFullYear(), S.cal.getMonth() + d, 1); render(); }
+
+/* ---------- views ---------- */
+const NAV = [['inicio','🏠 Início'],['projetos','📁 Projetos'],['tarefas','✅ Tarefas'],['notas','📝 Notas'],['calendario','🗓 Calendário'],['prazos','⏰ Prazos'],['clientes','👥 Clientes']];
+const go = (v, p = null) => { S.view = v; S.param = p; render(); };
+const taskCard = (t) => `<div class="card click" draggable="true" data-id="${t.id}" onclick="editTask(S.tasks.find(x=>x.id==${t.id}))">
+  <div class="${t.status==='done'?'done':''}">${esc(t.title)}</div>
+  <div class="meta">${esc(project(t.project_id)?.name || 'Sem projeto')}</div>
+  <div style="margin-top:6px"><span class="tag ${t.priority}">${PRIO[t.priority]}</span> ${t.due ? `<span class="tag ${late(t.due,t.status==='done')?'late':''}">${fmt(t.due)}</span>` : ''}</div></div>`;
+
+const views = {
+  inicio() {
+    const open = S.tasks.filter((t) => t.status !== 'done');
+    const overdue = open.filter((t) => late(t.due));
+    const soon = open.filter((t) => t.due && t.due >= today()).sort((a,b) => a.due.localeCompare(b.due)).slice(0, 6);
+    return `<h2>Início</h2><div class="sub">Visão geral do que está em andamento.</div>
+    <div class="stats">
+      <div class="card stat"><b>${S.projects.filter(p=>p.status==='andamento').length}</b><span class="meta">projetos ativos</span></div>
+      <div class="card stat"><b>${open.length}</b><span class="meta">tarefas abertas</span></div>
+      <div class="card stat"><b style="color:${overdue.length?'#d33':'inherit'}">${overdue.length}</b><span class="meta">atrasadas</span></div>
+      <div class="card stat"><b>${S.clients.length}</b><span class="meta">clientes</span></div>
+    </div>
+    <div class="bar"><button onclick="editTask()">+ Tarefa</button><button class="ghost" onclick="newNote()">+ Nota</button><button class="ghost" onclick="editEvent({date:today()})">+ Evento</button><button class="ghost" onclick="editProject()">+ Projeto</button></div>
+    <h3 class="sec">Hoje e próximos eventos</h3><div class="grid">${S.events.filter(e=>e.date>=today()).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).slice(0,4).map(e=>`<div class="card click" onclick="editEvent(S.events.find(x=>x.id==${e.id}))"><h3>${esc(e.title)}</h3><div class="meta">${fmt(e.date)} ${esc(e.time)}</div></div>`).join('') || '<div class="empty">Sem eventos.</div>'}</div>
+    <h3 class="sec">Atrasadas</h3><div class="grid">${overdue.map(taskCard).join('') || '<div class="empty">Nada atrasado 🎉</div>'}</div>
+    <h3 class="sec">Próximos prazos</h3><div class="grid">${soon.map(taskCard).join('') || '<div class="empty">Sem prazos futuros.</div>'}</div>
+    <h3 class="sec">Notas fixadas</h3><div class="grid">${S.notes.filter(n=>n.pinned).map(n=>`<div class="card click" onclick="S.noteId=${n.id};go('notas')"><h3>${esc(n.title||'Sem título')}</h3><div class="meta">${esc(n.content.slice(0,90))}</div></div>`).join('') || '<div class="empty">Fixe notas importantes (📌) para vê-las aqui.</div>'}</div>`;
+  },
+  projetos() {
+    if (S.param) return views.projeto(S.param);
+    return `<h2>Projetos</h2><div class="sub">Todos os seus projetos.</div>
+    <div class="bar"><button onclick="editProject()">+ Novo projeto</button></div>
+    <div class="grid">${S.projects.map((p) => {
+      const ts = S.tasks.filter((t) => t.project_id == p.id), d = ts.filter((t) => t.status==='done').length;
+      return `<div class="card click" onclick="go('projetos',${p.id})"><h3>${esc(p.name)}</h3>
+      <div class="meta">${esc(client(p.client_id)?.name || 'Sem cliente')}</div>
+      <div style="margin:8px 0"><span class="tag">${STATUS_P[p.status]}</span> <span class="tag ${late(p.deadline,p.status==='concluido')?'late':''}">${fmt(p.deadline)}</span></div>
+      <div class="meta">${d}/${ts.length} tarefas</div></div>`; }).join('') || '<div class="empty">Nenhum projeto ainda.</div>'}</div>`;
+  },
+  projeto(id) {
+    const p = project(id); if (!p) { S.param = null; return views.projetos(); }
+    const ts = S.tasks.filter((t) => t.project_id == id);
+    return `<div class="bar"><button class="ghost" onclick="go('projetos')">← Projetos</button></div>
+    <h2>${esc(p.name)}</h2><div class="sub">${esc(client(p.client_id)?.name || 'Sem cliente')} · ${STATUS_P[p.status]} · prazo ${fmt(p.deadline)}</div>
+    ${p.description ? `<p>${esc(p.description)}</p>` : ''}
+    <div class="bar"><button onclick="editTask()">+ Nova tarefa</button><button class="ghost" onclick="editProject(project(${id}))">Editar projeto</button></div>
+    ${board(ts)}
+    <h3 class="sec">Notas do projeto</h3><div class="bar"><button class="ghost" onclick="newNote(${id})">+ Nota neste projeto</button></div>
+    <div class="grid">${S.notes.filter(n=>n.project_id==id).map(n=>`<div class="card click" onclick="S.noteId=${n.id};go('notas')"><h3>${esc(n.title||'Sem título')}</h3><div class="meta">${esc(n.content.slice(0,90))}</div></div>`).join('') || '<div class="empty">Sem notas.</div>'}</div>`;
+  },
+  tarefas() {
+    const f = S.filter;
+    let ts = S.tasks.filter((t) => (!f.project || t.project_id == f.project) && (!f.client || project(t.project_id)?.client_id == f.client));
+    return `<h2>Tarefas</h2><div class="sub">Arraste entre colunas para mudar o status.</div>
+    <div class="bar"><button onclick="editTask()">+ Nova tarefa</button>
+      <select onchange="S.filter.project=this.value;render()">${Object.entries(opts(S.projects,'name','Todos os projetos')).map(([k,v])=>`<option value="${k}" ${k==(f.project||'')?'selected':''}>${esc(v)}</option>`).join('')}</select>
+      <select onchange="S.filter.client=this.value;render()">${Object.entries(opts(S.clients,'name','Todos os clientes')).map(([k,v])=>`<option value="${k}" ${k==(f.client||'')?'selected':''}>${esc(v)}</option>`).join('')}</select>
+      <button class="ghost" onclick="S.taskMode=S.taskMode==='board'?'list':'board';render()">${S.taskMode==='board'?'Ver lista':'Ver quadro'}</button></div>
+    ${S.taskMode==='board' ? board(ts) : list(ts)}`;
+  },
+  notas() {
+    const ns = [...S.notes].sort((a,b) => (b.pinned - a.pinned) || b.updated.localeCompare(a.updated));
+    if (!S.noteId || !S.notes.find(n => n.id == S.noteId)) S.noteId = ns[0]?.id ?? null;
+    const n = S.notes.find(x => x.id == S.noteId);
+    const sel = (k, list) => `<select id="n_${k}" onchange="saveNote(${n?.id})">${Object.entries(opts(list,'name')).map(([v,t])=>`<option value="${v}" ${v==(n?.[k]??'')?'selected':''}>${esc(t)}</option>`).join('')}</select>`;
+    return `<h2>Notas</h2><div class="sub">Ideias, reuniões, briefings. Tudo salva sozinho.</div>
+    <div class="notes"><div class="nlist"><div class="bar"><button onclick="newNote()">+ Nova nota</button></div>
+      ${ns.map(x=>`<div class="card click ${x.id==S.noteId?'sel':''}" data-n="${x.id}" onclick="S.noteId=${x.id};render()"><h3>${x.pinned?'📌 ':''}${esc(x.title||'Sem título')}</h3><div class="meta">${esc(project(x.project_id)?.name || client(x.client_id)?.name || x.content.slice(0,40) || '—')}</div></div>`).join('') || '<div class="empty">Nenhuma nota.</div>'}</div>
+    ${n ? `<div class="editor"><div class="bar"><span class="meta" id="saved"></span><span style="flex:1"></span><button class="ghost" onclick="togglePin(${n.id})">${n.pinned?'Desafixar':'📌 Fixar'}</button><button class="ghost" onclick="delNote(${n.id})">Excluir</button></div>
+      <input class="t" id="n_title" value="${esc(n.title)}" placeholder="Título" oninput="saveNote(${n.id})">
+      <div class="bar" style="margin-top:6px">${sel('project_id', S.projects)}${sel('client_id', S.clients)}</div>
+      <textarea id="n_content" placeholder="Escreva aqui…" oninput="saveNote(${n.id})">${esc(n.content)}</textarea></div>` : '<div class="empty">Crie sua primeira nota.</div>'}</div>`;
+  },
+  calendario() {
+    const y = S.cal.getFullYear(), m = S.cal.getMonth(), first = new Date(y, m, 1), start = new Date(y, m, 1 - first.getDay());
+    const iso = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const by = {}; const add = (d, o) => d && (by[d] ||= []).push(o);
+    S.tasks.filter(t=>t.status!=='done').forEach(t => add(t.due, {c:late(t.due)?'task late':'task', t:'✓ '+t.title, f:`editTask(S.tasks.find(x=>x.id==${t.id}))`}));
+    S.projects.filter(p=>p.status!=='concluido').forEach(p => add(p.deadline, {c:'proj', t:'📁 '+p.name, f:`go('projetos',${p.id})`}));
+    S.events.forEach(e => add(e.date, {c:'event', t:(e.time?e.time+' ':'')+e.title, f:`editEvent(S.events.find(x=>x.id==${e.id}))`}));
+    let cells = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(d => `<div class="h">${d}</div>`).join('');
+    for (let i = 0; i < 42; i++) { const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i), k = iso(d);
+      cells += `<div class="d ${d.getMonth()!==m?'out':''} ${k===today()?'today':''}" onclick="editEvent({date:'${k}'})"><span class="n">${d.getDate()}</span>${(by[k]||[]).map(o=>`<div class="ev ${o.c}" onclick="event.stopPropagation();${o.f}">${esc(o.t)}</div>`).join('')}</div>`; }
+    const label = first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    return `<h2>Calendário</h2><div class="sub">Tarefas <span class="ev task">azul</span>, projetos <span class="ev proj">amarelo</span> e eventos <span class="ev event">verde</span>. Clique em um dia para criar um evento.</div>
+    <div class="bar"><button class="ghost" onclick="calMove(-1)">←</button><b style="min-width:150px;text-align:center;text-transform:capitalize">${label}</b><button class="ghost" onclick="calMove(1)">→</button><button class="ghost" onclick="S.cal=new Date();render()">Hoje</button></div><div class="cal">${cells}</div>`;
+  },
+  busca() {
+    const q = S.q.toLowerCase(), has = (...v) => v.some(x => String(x ?? '').toLowerCase().includes(q));
+    const sec = (t, a) => a.length ? `<h3 class="sec">${t}</h3><div class="grid">${a.join('')}</div>` : '';
+    const card = (h, m, f) => `<div class="card click" onclick="${f}"><h3>${esc(h)}</h3><div class="meta">${esc(m)}</div></div>`;
+    const out = sec('Projetos', S.projects.filter(p=>has(p.name,p.description)).map(p=>card(p.name, client(p.client_id)?.name||'', `go('projetos',${p.id})`)))
+      + sec('Tarefas', S.tasks.filter(t=>has(t.title,t.notes)).map(t=>card(t.title, project(t.project_id)?.name||'', `editTask(S.tasks.find(x=>x.id==${t.id}))`)))
+      + sec('Notas', S.notes.filter(n=>has(n.title,n.content)).map(n=>card(n.title||'Sem título', n.content.slice(0,80), `S.noteId=${n.id};S.q='';$('#q').value='';go('notas')`)))
+      + sec('Clientes', S.clients.filter(c=>has(c.name,c.email,c.notes)).map(c=>card(c.name, c.email, `editClient(client(${c.id}))`)))
+      + sec('Eventos', S.events.filter(e=>has(e.title,e.notes)).map(e=>card(e.title, fmt(e.date), `editEvent(S.events.find(x=>x.id==${e.id}))`)));
+    return `<h2>Busca</h2><div class="sub">Resultados para “${esc(S.q)}”</div>${out || '<div class="empty">Nada encontrado.</div>'}`;
+  },
+  prazos() {
+    const items = [...S.tasks.filter(t=>t.due && t.status!=='done').map(t=>({d:t.due, kind:'Tarefa', name:t.title, sub:project(t.project_id)?.name, late:late(t.due), click:`editTask(S.tasks.find(x=>x.id==${t.id}))`})),
+      ...S.projects.filter(p=>p.deadline && p.status!=='concluido').map(p=>({d:p.deadline, kind:'Projeto', name:p.name, sub:client(p.client_id)?.name, late:late(p.deadline), click:`go('projetos',${p.id})`}))].sort((a,b)=>a.d.localeCompare(b.d));
+    return `<h2>Prazos</h2><div class="sub">Tarefas e projetos em ordem de data.</div>
+    <table><tr><th>Data</th><th>Tipo</th><th>Nome</th><th>Projeto / Cliente</th></tr>${items.map(i=>`<tr class="row" style="cursor:pointer" onclick="${i.click}"><td><span class="tag ${i.late?'late':''}">${fmt(i.d)}</span></td><td>${i.kind}</td><td>${esc(i.name)}</td><td class="meta">${esc(i.sub||'—')}</td></tr>`).join('')}</table>
+    ${items.length ? '' : '<div class="empty">Nenhum prazo definido.</div>'}`;
+  },
+  clientes() {
+    return `<h2>Clientes</h2><div class="sub">Quem você atende e os projetos de cada um.</div>
+    <div class="bar"><button onclick="editClient()">+ Novo cliente</button></div>
+    <div class="grid">${S.clients.map((c) => { const ps = S.projects.filter(p=>p.client_id==c.id);
+      return `<div class="card click" onclick="editClient(client(${c.id}))"><h3>${esc(c.name)}</h3><div class="meta">${esc(c.email||'')} ${esc(c.phone||'')}</div>
+      <div style="margin-top:8px">${ps.map(p=>`<span class="tag">${esc(p.name)}</span> `).join('') || '<span class="meta">Sem projetos</span>'}</div></div>`; }).join('') || '<div class="empty">Nenhum cliente ainda.</div>'}</div>`;
+  },
+};
+
+function board(ts) {
+  return `<div class="board">${Object.entries(STATUS_T).map(([k,l]) => `<div class="col" data-status="${k}"><h4>${l} · ${ts.filter(t=>t.status===k).length}</h4>${ts.filter(t=>t.status===k).map(taskCard).join('')}</div>`).join('')}</div>`;
+}
+function list(ts) {
+  return `<table><tr><th></th><th>Tarefa</th><th>Projeto</th><th>Prioridade</th><th>Prazo</th></tr>${ts.map(t=>`<tr class="row"><td><input type="checkbox" style="width:auto" ${t.status==='done'?'checked':''} onchange="setStatus(${t.id},this.checked?'done':'todo')"></td>
+  <td class="${t.status==='done'?'done':''}" style="cursor:pointer" onclick="editTask(S.tasks.find(x=>x.id==${t.id}))">${esc(t.title)}</td><td class="meta">${esc(project(t.project_id)?.name||'—')}</td><td><span class="tag ${t.priority}">${PRIO[t.priority]}</span></td><td><span class="tag ${late(t.due,t.status==='done')?'late':''}">${fmt(t.due)}</span></td></tr>`).join('')}</table>`;
+}
+async function setStatus(id, status) { await api('PUT','tasks/'+id,{status}); load(); }
+
+function render() {
+  $('#nav').innerHTML = NAV.map(([k,l]) => `<a class="${S.view===k?'on':''}" onclick="go('${k}')">${l}</a>`).join('');
+  $('#nav').innerHTML = NAV.map(([k,l]) => `<a class="${S.view===k?'on':''}" onclick="go('${k}')">${l}</a>`).join('');
+  $('#main').innerHTML = views[S.view]();
+  document.querySelectorAll('[draggable]').forEach((el) => el.ondragstart = (e) => e.dataTransfer.setData('id', el.dataset.id));
+  document.querySelectorAll('.col').forEach((c) => {
+    c.ondragover = (e) => { e.preventDefault(); c.classList.add('over'); };
+    c.ondragleave = () => c.classList.remove('over');
+    c.ondrop = (e) => { e.preventDefault(); c.classList.remove('over'); setStatus(e.dataTransfer.getData('id'), c.dataset.status); };
+  });
+}
+applyCfg(); load();
+</script>
+</body>
+</html>
